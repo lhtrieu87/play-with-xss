@@ -1,0 +1,1 @@
+Script tags in Ajax response are interpreted if they are injected into an element, which is later loaded into the document or is already in the document.
