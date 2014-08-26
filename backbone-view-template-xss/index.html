@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Marionette's template & XSS</title>
+  <script type="text/javascript" src="bower_components/underscore/underscore.js"></script>
+  <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="bower_components/backbone/backbone.js"></script>
+  <script type="text/javascript" src="bower_components/marionette/lib/backbone.marionette.js"></script>
+  
+  <script type="text/template" id="template">
+    <h2><%= name %></h2>
+  </script>
+  
+  <script type="text/javascript">
+    $(function () {
+      var Luffy = new Marionette.Application();
+
+      Luffy.addRegions({
+        mainRegion: '#main-region'
+      });
+
+      var model = new Backbone.Model({
+        name: 'XSS <script>alert("User <%- to escape html to prevent xss!");<\/script>'
+      });
+
+      var View = Marionette.ItemView.extend({
+        tagName: 'div',
+        template: '#template'
+      });
+
+      var view = new View({
+        model: model
+      });
+
+      // Luffy.mainRegion.show(view, { forceShow: true });
+      // $('#main-region').append(view.render().el);
+      document.getElementById("main-region").appendChild(view.render().el);
+    });
+  </script>
+</head>
+
+<body>
+<div id="main-region"></div>
+</body>
+
+</html>
