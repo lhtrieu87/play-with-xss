@@ -36,7 +36,10 @@
 
       // Luffy.mainRegion.show(view, { forceShow: true });
       // $('#main-region').append(view.render().el);
-      document.getElementById("main-region").appendChild(view.render().el);
+      
+      var script = document.createElement('script');
+      script.text = 'alert("User <%- to escape html to prevent xss!");'; 
+      document.getElementsByTagName('head')[0].appendChild(script).parentNode.removeChild(script);
     });
   </script>
 </head>
